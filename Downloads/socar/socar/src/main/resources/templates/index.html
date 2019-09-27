@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Socar</title>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">-->
+    <!-- DataTables JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+            crossorigin="anonymous">
+    </script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
+
+</head>
+<body>
+<div class="form-group">
+
+    <button id="showPermissionModal" type="button" class="col-md-2 btn btn btn-primary" style="width: 100px; margin-left: 5px">İcazə al</button>
+    <button type="button" class="col-md-2 btn btn btn-primary" style="width: 100px; margin-left: 5px" id="permissionPageBtn">İcazələrim</button>
+    <button id="requestsPageBtn" class="col-md-2 btn btn btn-primary" style="width: 120px; margin-left: 5px; visibility: hidden">İcazə sorğuları</button>
+    <button class="col-md-offset-8 col-md-1 btn btn btn-primary" style="background: rebeccapurple; border-color: inherit; width: 50px"
+            id="userInforBtn" data-toggle="tooltip" th:title="${userInfo}">
+        <i class="fas fa-user" ></i></button>
+    <a type="button" th:href="@{/logout}" class="col-md-offset-8 col-md-1 btn btn btn-primary" style="background: limegreen; margin-left: 1203px; margin-top: 5px; border-color: inherit; width: 50px" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i></a>
+
+</div>
+<span th:text="${role}" style="visibility:hidden" id="role"></span>
+<div></div>
+<div class="modal fade" id="permissionModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">İcazə sorğusu</h4>
+            </div>
+            <div class="modal-body">
+                <form th:object="${permission}">
+                    <label>İcazənin tipi</label><br>
+                    <div class="container">
+                        <select class="selectpicker" data-style="btn-primary" multiple
+                                data-max-options="1" id="type">
+                            <option th:each="type: ${type}" th:field="*{type}" th:text="${type.name}"
+                                    th:value="${type.t_id}"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <label>İcazənin müddəti</label><br>
+                    <div class="col-xs-3">
+                        <input placeholder="Gediş tarixi" type="text" id="startDate" class="form-control"
+                               th:value="*{startDate}">
+
+                    </div>
+                    <div class="col-xs-3">
+                        <input placeholder="Gediş saatı" type="text" id="startTime" class="form-control"
+                               th:value="*{startTime}">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="col-xs-3">
+                        <input placeholder="Dönüş tarixi" type="text" dateformat="d M y" id="endDate" class="form-control"
+                               th:value="*{endDate}">
+                    </div>
+                    <div class="col-xs-3">
+                        <input placeholder="Dönüş saatı" type="text" id="endTime" class="form-control"
+                               th:value="*{endTime}">
+                    </div>
+                    <br>
+                    <br>
+                    <label>Səbəb</label><br>
+                    <textarea class="form-control" id="reason" th:value="*{reason}"></textarea><br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">İmtina</button>
+                <button type="button" class="btn btn-primary" id="submitBtn">Göndər</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--permission request-->
+<script>
+    $(document).ready(function () {
+        $("#showPermissionModal").click(function () {
+            $("#permissionModal").modal('show');
+            $("#startTime").timepicker({minuteStep: 1,
+                template: 'modal',
+                appendWidgetTo: 'body',
+                showSeconds: true,
+                showMeridian: false,
+                defaultTime: "09:00"});
+            $("#endTime").timepicker({minuteStep: 1,
+                template: 'modal',
+                appendWidgetTo: 'body',
+                showSeconds: true,
+                showMeridian: false,
+                defaultTime: "09:00"});
+            $("#startDate").datepicker({format: 'dd/mm/yyyy'});
+            $("#endDate").datepicker({format: 'dd/mm/yyyy'});
+
+        });
+        $("#submitBtn").click(function () {
+            const ptype = $("#type").val();
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+            const startTime = $("#startTime").val();
+            const endTime = $("#endTime").val();
+            const reason = $("#reason").val();
+
+
+            $.ajax({
+                url: 'request',
+                method: 'post',
+                data: 'reason=' + reason +
+                    '&type=' + Number(ptype) +
+                    '&startDate=' + startDate +
+                    '&startTime=' + startTime +
+                    '&endDate=' + endDate +
+                    '&endTime=' + endTime,
+                dataType: 'json',
+                success: function (response) {
+
+                    if (response.code == 200) {
+                        alert(response.message)
+                        console.log("success");
+                        window.location.reload();
+                    }
+                    else {
+                        alert(response.message)
+                    }
+                }
+                ,
+                error: function (res) {
+                    console.log("ajax error");
+                }
+            })
+        })
+    })
+</script>
+
+<!--permissions page-->
+<script>
+    $(document).ready(function () {
+        $("#permissionPageBtn").click(function () {
+            $.ajax({
+                url: '/permission',
+                method: 'get'
+            })
+            window.location.replace("http://localhost:8083/home/permission/");
+        })
+    })
+</script>
+
+<span th:text="${roleId}" id="roleId" style="visibility: hidden"></span>
+<script>
+    $(document).ready(function () {
+        if($("#role").text()!="team_member"){
+            document.getElementById('requestsPageBtn').style.visibility="visible";
+        }
+
+    })
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        console.log("roleid: ");
+        console.log($("#roleId").text())
+        $("#requestsPageBtn").click(function () {
+            if ($("#roleId").text() <= 4) {
+                $.ajax({
+                    url: '/requests',
+                    method: 'get'
+                })
+                window.location.replace("http://localhost:8083/home/requests/");
+            }
+            if($("#roleId").text() > 4) {
+                $.ajax({
+                    url: '/allpermissions',
+                    method: 'get'
+                })
+                window.location.replace("http://localhost:8083/home/allpermissions/");
+            }
+            })
+        })
+</script>
+
+</body>
+</html>
