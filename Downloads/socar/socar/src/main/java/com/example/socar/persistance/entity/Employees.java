@@ -1,9 +1,6 @@
 package com.example.socar.persistance.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,12 +41,11 @@ public class Employees {
         this.password = password;
         this.permission = permission;
     }
-    public Employees(Employees employees) {
-        this.roles = roles;
+    public Employees(Long employeeId, String fullname, String mail, String password) {
+        this.employeeId = employeeId;
         this.fullname = fullname;
         this.mail = mail;
         this.password = password;
-        this.permission = permission;
     }
 
     public Long getId() {
@@ -60,6 +56,8 @@ public class Employees {
     public Set<Roles> getRoles() {
         return roles;
     }
+//
+
 
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;

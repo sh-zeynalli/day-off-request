@@ -6,6 +6,7 @@ import com.example.socar.persistance.entity.Employees;
 import com.example.socar.persistance.entity.Roles;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EmployeeService {
 
@@ -21,5 +22,9 @@ public interface EmployeeService {
     public List<Employees> getByRoleId(Long id);
 
     public Employees findbyPermissionId(Long id);
+
+    Employees save(Employees dto);
+
+    void addRole(Long id, Long roles);
 
 }

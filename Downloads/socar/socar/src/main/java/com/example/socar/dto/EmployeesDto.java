@@ -17,6 +17,7 @@ public class EmployeesDto {
 
     Set<RolesDto> roles = new HashSet<>();
 
+
     private String fullname;
 
     private String mail;
@@ -37,16 +38,13 @@ public class EmployeesDto {
 
     }
 
-    public EmployeesDto(EmployeesDto employeesDto) {
+    public EmployeesDto(Long employeeId, String fullname, String mail, String password) {
         this.employeeId = employeeId;
-        this.roles = roles;
         this.fullname = fullname;
         this.mail = mail;
         this.password = password;
 
     }
-
-
 
     public EmployeesDto adapter(Employees e){
 
@@ -80,6 +78,8 @@ public class EmployeesDto {
     public Set<RolesDto> getRoles() {
         return roles;
     }
+
+
 
     public void setRoles(Set<RolesDto> roles) {
         this.roles = roles;

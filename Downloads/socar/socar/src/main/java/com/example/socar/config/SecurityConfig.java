@@ -36,9 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    public static void main(String[] args) {
 //        System.out.println(new BCryptPasswordEncoder().encode("45"));
-//        //System.out.println(new BCryptPasswordEncoder().encode("3"));
-//
-//    }
+//3}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .anyRequest().permitAll()
                 .and().formLogin().permitAll()
-                .and().exceptionHandling().accessDeniedPage("/exception")
+                .and().exceptionHandling().accessDeniedPage("/errorpage")
                 .and().logout().logoutUrl("/logout");
     }
 

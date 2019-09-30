@@ -23,6 +23,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -42,9 +43,9 @@ public class Main {
     @Autowired
     PermissionService permissionService;
 
-    @RequestMapping("/exception")
+    @RequestMapping("/errorpage")
     public String accessDenied() {
-        return "exception";
+        return "errorpage";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -55,8 +56,13 @@ public class Main {
         List<Roles> role = rolesService.getRolesbyEId(employees.getId());
         modelAndView.addObject("roleId", role.iterator().next().getId());
         modelAndView.setViewName("index");
-        modelAndView.addObject("userInfo", employees.getFullname().toUpperCase()+"\n"+ employees.getRoles().iterator().next().getName());
-        modelAndView.addObject("role", role.get(0).getName());
+        List<String> roleName = new ArrayList<>();
+        for (int i = 0; i < role.size(); i++) {
+            roleName.add(role.get(i).getName() );
+        }
+
+        modelAndView.addObject("userInfo", employees.getFullname().toUpperCase() + "\n" + roleName);
+        modelAndView.addObject("role", role.iterator().next().getName());
         modelAndView.addObject("type", typeService.findAllTypes());
         modelAndView.addObject("permission", new PermissionDto());
         return modelAndView;
@@ -118,7 +124,6 @@ public class Main {
             EmployeesDto dto = new EmployeesDto();
             p.setEmployees(dto.adapter(e));
             p.setDate(LocalDateTime.now());
-            // Long t_id = Long.parseLong(type);
             PTypeDto t = typeService.findById(type);
             p.setType(t);
             p.setReason(reason);

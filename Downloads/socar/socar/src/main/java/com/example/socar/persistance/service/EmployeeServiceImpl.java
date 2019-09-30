@@ -10,8 +10,10 @@ import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,9 +49,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employees save(Employees dto) {
+        return employeeRepository.save(dto);
+    }
+
+    @Override
+    public void addRole(Long id, Long roles) {
+        employeeRepository.addRole( id, roles);
+    }
+
+    @Override
     public List<EmployeesDto> findAllEmployees() {
-        //List<Employees> list=employeeRepository.findAll();
-        return null;
+        List<Employees> list = employeeRepository.findAll();
+        List<EmployeesDto> dto = list.stream().map(e -> new EmployeesDto(
+                e.getId(),
+                e.getFullname(),
+                e.getMail(),
+                e.getPassword()
+        )).collect(Collectors.toList());
+        return dto;
     }
 
 }
